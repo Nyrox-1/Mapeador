@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Bedrock Addon Manager</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- JSZip -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <h1 class="logo">
+                    <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                    </svg>
+                    <span data-i18n="app_title">Bedrock Addon Manager</span>
+                </h1>
+            </div>
+            <div class="header-right">
+                <a href="https://discord.gg/GpZjczBGMY" target="_blank" class="header-link">Discord</a>
+                <a href="https://www.tiktok.com/@nyrox4763" target="_blank" class="header-link">TikTok</a>
+                <select id="languageSelector" class="language-selector">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Upload Section -->
+        <section class="upload-section">
+            <div class="upload-area" id="uploadArea">
+                <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                </svg>
+                <h2 data-i18n="upload_title">Upload Addon Files</h2>
+                <p data-i18n="upload_description">Drag & drop .json or .zip files here, or click to browse</p>
+                <input type="file" id="fileInput" multiple accept="*" hidden>
+                <button class="btn btn-primary" id="browseBtn" data-i18n="browse_button">Browse Files</button>
+            </div>
+        </section>
+
+        <!-- Packs List Section -->
+        <section class="packs-section" id="packsSection" style="display: none;">
+            <div class="section-header">
+                <h2 data-i18n="packs_title">Loaded Packs</h2>
+                <button class="btn btn-secondary" id="clearAllBtn" data-i18n="clear_all">Clear All</button>
+            </div>
+            <div class="packs-grid" id="packsGrid"></div>
+        </section>
+
+        <!-- Manifest Preview Section -->
+        <section class="preview-section" id="manifestPreviewSection" style="display: none;">
+            <div class="section-header">
+                <h2 data-i18n="manifest_preview_title">Manifest Preview</h2>
+            </div>
+            <div class="preview-cards">
+                <div class="preview-card">
+                    <h3 data-i18n="behavior_packs">Behavior Packs</h3>
+                    <div class="manifest-list" id="bpManifestList"></div>
+                </div>
+                <div class="preview-card">
+                    <h3 data-i18n="resource_packs">Resource Packs</h3>
+                    <div class="manifest-list" id="rpManifestList"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- JSON Output Section -->
+        <section class="output-section" id="outputSection" style="display: none;">
+            <div class="section-header">
+                <h2 data-i18n="output_title">Generated JSON Files</h2>
+            </div>
+            <div class="output-grid">
+                <!-- Behavior Packs JSON -->
+                <div class="output-card" id="bpOutputCard" style="display: none;">
+                    <div class="output-header">
+                        <h3>world_behavior_packs.json</h3>
+                        <div class="output-actions">
+                            <button class="btn btn-small" id="copyBPBtn" data-i18n="copy">Copy</button>
+                            <button class="btn btn-small" id="downloadBPBtn" data-i18n="download">Download</button>
+                        </div>
+                    </div>
+                    <pre class="output-content" id="bpOutput"></pre>
+                </div>
+
+                <!-- Resource Packs JSON -->
+                <div class="output-card" id="rpOutputCard" style="display: none;">
+                    <div class="output-header">
+                        <h3>world_resource_packs.json</h3>
+                        <div class="output-actions">
+                            <button class="btn btn-small" id="copyRPBtn" data-i18n="copy">Copy</button>
+                            <button class="btn btn-small" id="downloadRPBtn" data-i18n="download">Download</button>
+                        </div>
+                    </div>
+                    <pre class="output-content" id="rpOutput"></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Error Messages -->
+        <div id="errorContainer"></div>
+    </main>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
